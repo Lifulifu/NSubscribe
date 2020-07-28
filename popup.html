@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>NSubscriber</title>
+</head>
+<body>
+
+    <img src="https://static.nhentai.net/img/logo.090da3be7b51.svg" id="logo" alt="logo" width="92" height="60">
+    <p id="sub-title">NSubscriber v2.0</p>
+
+    <ul id="tabs">
+        <li id="book-tab-btn" href="tab1">Books</li>
+        <li id="artist-tab-btn" href="tab2">Artists</li>
+    </ul>
+
+    <div id="tab1" class="tab-content">
+        <button id="reload-btn" class="red-btn">Reload</button>
+        <h2 id='tt'>Latest Books</h2>
+        <h3 id='date'>last update: 2018/1/1 00:00:00</h3> 
+        <ul id="books-ul"></ul>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <input id="artist-input"></input>
+        <button id="submit-btn" class="red-btn">+ add</button>
+
+        <ul id="artist-ul">
+        </ul>
+    </div>
+
+    <script src="lib/jquery-3.3.1.min.js"></script>
+    <script src="popup.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 15px;
+            background-color: #555555;
+            color: white;
+            text-align: center;
+            transition-delay: 0.5s;
+        }
+
+        #logo {
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+        #logo:hover {
+            cursor: pointer;
+        }
+
+        #sub-title {
+            font-size: 0.8em;
+            margin-top: 0px;
+            margin-bottom: 20px;
+        }
+        #tab1 #tt {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+        #tab1 #date {
+            font-size: 0.8em;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        .tab-content {
+            text-align: center;
+            width: 300px;
+            height: 400px;
+            border: none;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color: #2c2c2c;
+            margin: 0;
+            padding: 5px;
+            overflow: scroll;
+        }
+
+        #tab2 ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #tab2 li {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+            display: grid;
+            grid-template-columns: auto 17px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .tab-content li:hover {
+            transition: background-color 0.3s;
+            background-color: #9b9b9b;
+            cursor: pointer;
+        }
+
+        .artist-name {
+            font-size: 1.2em;
+            overflow-x: hidden;
+            text-align: left;
+        }
+
+        .del-btn {
+            background-color: #555555;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            padding: 0px;
+            font-size: 0.8em;
+        }
+
+        #artist-input {
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 1.3em;
+        }
+
+        #submit-btn {
+            border: none;
+            border-radius: 5px;
+            padding-left: 25px;
+            padding-right: 25px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin: 10px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            background-color: rgb(235, 8, 95);
+        }
+
+        #reload-btn {
+            border: none;
+            border-radius: 5px;
+            padding-left: 25px;
+            padding-right: 25px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin: 25px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: rgb(235, 8, 95);
+        }
+
+        #submit-btn:hover {
+            background-color: rgb(233, 111, 158);
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        #reload-btn:hover {
+            background-color: rgb(233, 111, 158);
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #7e7e7e;
+            border-radius: 2px; 
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgb(58, 58, 58); 
+        }
+
+        /*TAB*/
+        #tabs {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0);
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }
+
+        #tabs li {
+            font-weight: bold;
+            background-color:#2c2c2c;
+            list-style: none;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        #tabs li:hover {
+            cursor: pointer;
+        }
+
+        #tabs li.inactive {
+            background-color:#414141;
+            color: #b9b9b9;
+        }
+
+        /*book li*/
+        #tab1 #books-ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 140px 140px;
+            justify-content: space-evenly;
+        }
+
+        #tab1 .book-li {
+            width: 120px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #tab1 .thumb-container {
+            width: 100%;
+            display: block;
+        }
+
+        .thumb-container img{
+            width: 100%;
+            height: auto;
+        }
+
+
+    </style>
+</body>
+</html>
