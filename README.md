@@ -11,6 +11,6 @@ Automatically search for new books from the keywords (artists, tags) you subscri
 Click the icon and add artists in the `Artists` tab, go to `Books` tab to see the new books.
 The subscribe list is stored locally in the extension storage.
 
-## Warning!!
+## FAQs
 - The reload button only works on nhentai.net because of cross-domain issue.
 - If you subscribe to too many artists, loading might take quite some time.
